@@ -211,20 +211,6 @@ d3.csv("data/iris.csv").then((data) => {
           .attr("font-size", '20px'); 
 
 
-    // Add the data points
-    FRAME3.selectAll("circle")
-       .data(data)
-       .enter()
-       .append("circle")
-        .attr("cx", (d) => {
-            return (MARGINS.left + x(d.Sepal_Width))})
-        .attr("cy", (d) => {
-            return (MARGINS.top + y(d.Petal_Width))})
-        .attr("r", 5)
-        .attr("opacity", 0.5)
-        .attr("fill", d => color(d.Species));
-
-
    
     // Add the chart title
     FRAME3.append("text")
