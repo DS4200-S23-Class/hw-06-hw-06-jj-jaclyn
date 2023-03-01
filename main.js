@@ -65,13 +65,6 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("opacity", 0.5)
         .attr("fill", d => color(d.Species));
 
-           // .attr("cx", function(d) { return petal_length(d.Sepal_Length) + MARGINS.bottom; })
-           // .attr("cy", function(d) { return sepal_length(d.Petal_Length) + MARGINS.left; })
-           // .attr("r", 5)
-           // .style("fill", function(d) { return color(d.Species); })
-           // .style("opacity", 0.5);
-
-
    
     // Add the chart title
     FRAME1.append("text")
@@ -175,12 +168,12 @@ const FRAME3 = d3.select('#vis3')
 d3.csv('data/iris.csv').then((data)=> {
 
     const y = d3.scaleLinear()
-                            .domain([0, d3.max(data, d => +d.Petal_Width)+0.2])
+                            .domain([0, d3.max(data, d => +d.Petal_Width)+1])
                             // .domain(data.map((d) => { return d.Petal_Length; }))
                             .range([VIS_HEIGHT,0]);
 
     const x = d3.scaleLinear()
-                            .domain([0, d3.max(data, d => +d.Sepal_Width)+0.5])
+                            .domain([0, d3.max(data, d => +d.Sepal_Width)+1])
                             // .domain(data.map((d) => { return d.Sepal_Length; }))
                             .range([0,VIS_WIDTH]);
 
@@ -222,12 +215,6 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("r", 5)
         .attr("opacity", 0.5)
         .attr("fill", d => color(d.Species));
-
-           // .attr("cx", function(d) { return petal_length(d.Sepal_Length) + MARGINS.bottom; })
-           // .attr("cy", function(d) { return sepal_length(d.Petal_Length) + MARGINS.left; })
-           // .attr("r", 5)
-           // .style("fill", function(d) { return color(d.Species); })
-           // .style("opacity", 0.5);
 
 
    
