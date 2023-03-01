@@ -124,13 +124,6 @@ d3.csv('data/iris.csv').then((data)=> {
               "," + (MARGINS.top) + ")") 
         .call(d3.axisLeft(y1)) 
           .attr("font-size", '20px'); 
-    
-        // Add the chart title
-    FRAME2.append("text")
-        .attr("x", 300)
-        .attr("y", 30)
-        .attr("text-anchor", "middle")
-        .text("Petal_Width vs Sepal_Width");
 
 
     // Add the data points
@@ -147,7 +140,6 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("fill", d => color(d.Species));
 
 
-
     // Add brushing
     FRAME2.call(d3.brush()
              .extent( [ [0,0], [FRAME_WIDTH,FRAME_HEIGHT] ] )
@@ -157,9 +149,10 @@ d3.csv('data/iris.csv').then((data)=> {
     // Function that is triggered when brushing is performed
     function updateChart() {
         extent = d3.event.selection;
-        scatter.classed("selected", function(d){ return isBrushed(extent, (x1(d.Sepal_Width)+ MARGINS.left), (y1(d.Petal_Width)+MARGINS.top) } );
-        scatter1.classed("selected", function(d){ return isBrushed(extent, (x1(d.Sepal_Width)+ MARGINS.left), (y1(d.Petal_Width)+MARGINS.top) } );
-        bars.classed("selected", function(d){ return isBrushed(extent, (x1(d.Sepal_Width)+ MARGINS.left), (y1(d.Petal_Width)+MARGINS.top) } );
+        scatter.classed("selected", function(d){ return isBrushed(extent, x1(d.Sepal_Width), y1(d.Petal_Width) ) } );
+        scatter1.classed("selected", function(d){ return isBrushed(extent, x1(d.Sepal_Width), y1(d.Petal_Width) ) } );
+        bars.classed("selected", function(d){ return isBrushed(extent, x1(d.Sepal_Width), y1(d.Petal_Width) ) } );
+    }
 
     // A function that returns TRUE or FALSE according if a dot is in the selection or not
     function isBrushed(brush_coords, cx, cy) {
@@ -169,6 +162,13 @@ d3.csv('data/iris.csv').then((data)=> {
             y1 = brush_coords[1][1]; 
         return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
     }
+
+    // Add the chart title
+    FRAME2.append("text")
+        .attr("x", 300)
+        .attr("y", 30)
+        .attr("text-anchor", "middle")
+        .text("Petal_Width vs Sepal_Width");
 
 
     const FRAME3 = d3.select("#vis3") 
@@ -215,8 +215,8 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("y", function(d) { return ySCALE(50) + MARGINS.top; })
         .attr("width", BAR_WIDTH)
         .attr("height", function(d) { return VIS_HEIGHT - ySCALE(50); })
-        .attr("fill", (d) => color(d.Species))
-                .attr("opacity", 1);
+        .attr("opacity", 0.5)
+        .attr("fill", (d) => color(d.Species));
 
 
     // Add the chart title
