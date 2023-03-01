@@ -65,13 +65,12 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("opacity", 0.5)
         .attr("fill", d => color(d.Species));
 
-           // .attr("cx", function(d) { return petal_length(d.Sepal_Length) + MARGINS.bottom; })
-           // .attr("cy", function(d) { return sepal_length(d.Petal_Length) + MARGINS.left; })
-           // .attr("r", 5)
-           // .style("fill", function(d) { return color(d.Species); })
-           // .style("opacity", 0.5);
-
-
+        // Add brush feature
+        FRAME1.call(d3.brush()                 
+                .extent([[0, 0], [FRAME_WIDTH, FRAME_HEIGHT]]) 
+                .on("start brush", updateChart)
+                .on("end", () => {})
+            );
    
     // Add the chart title
     FRAME1.append("text")
@@ -147,8 +146,8 @@ d3.csv('data/iris.csv').then((data)=> {
            );
 
     // Function that is triggered when brushing is performed
-    function updateChart() {
-        extent = d3.event.selection;
+    function updateChart(event) {
+        extent = event.selection;
         scatter.classed("selected", function(d){ return isBrushed(extent, x1(d.Sepal_Width), y1(d.Petal_Width) ) } );
         scatter1.classed("selected", function(d){ return isBrushed(extent, x1(d.Sepal_Width), y1(d.Petal_Width) ) } );
         bars.classed("selected", function(d){ return isBrushed(extent, x1(d.Sepal_Width), y1(d.Petal_Width) ) } );
@@ -163,6 +162,14 @@ d3.csv('data/iris.csv').then((data)=> {
         return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
     }
 
+        // Highlight brushed points
+        function barLinked(extent, cx, cy) {
+            let x0 = extent[0][0];
+            let x1 = extent[1][0];
+            let y0 = extent[0][1];
+            let y1 = extent[1][1];
+            return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+        }
     // Add the chart title
     FRAME2.append("text")
         .attr("x", 300)
@@ -224,6 +231,6 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("x", 300)
         .attr("y", 30)
         .attr("text-anchor", "middle")
-        .text("setosa vs versicolor vs virginica");
+        .text("Count of Species");
 });
 
