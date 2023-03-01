@@ -168,15 +168,12 @@ const FRAME3 = d3.select('#vis3')
 // Reading from a file
 d3.csv("data/iris.csv").then((data) => { 
 
-    const MAX = d3.max(data, (d) => { return parseInt(d.amount); });
-
     const X_SCALE = d3.scaleBand() 
                     .domain(data.map((d) => { return d.Species; })) 
-                    .range([0, VIS_WIDTH])
-                    .padding(.2); 
+                    .range([0, VIS_WIDTH]); 
            
     const Y_SCALE = d3.scaleLinear() 
-                      .domain([MAX + 10, 0]) 
+                      .domain([50, 0]) 
                       .range([0, VIS_HEIGHT]); 
 
     // Create a color scale
@@ -192,7 +189,7 @@ d3.csv("data/iris.csv").then((data) => {
           .append("rect")  
             .attr("y", (d) => { return Y_SCALE(d.amount) + MARGINS.bottom; }) 
             .attr("x", (d) => { return X_SCALE(d.category) + MARGINS.left;}) 
-            .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE(d.amount); })
+            .attr("height", (d) => { return VIS_HEIGHT; })
             .attr("width", X_SCALE.bandwidth())
             .attr("class", "bar");
 
@@ -234,7 +231,7 @@ d3.csv("data/iris.csv").then((data) => {
         .attr("x", 300)
         .attr("y", 30)
         .attr("text-anchor", "middle")
-        .text("Petal_Width vs Sepal_Width");
+        .text("setosa vs versicolor vs virginica");
 
   });
 
