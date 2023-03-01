@@ -23,19 +23,9 @@ h2{
   clear: both;
 }
 
-#frame {
-  width: 500px;
-  height: 500px;
-}
-
-
-line {
-    stroke-width: 1px;
-    stroke: black;
-}
 
 .selected {
-  opacity: 1 !important;
+  opacity: 1;
   stroke: black;
-  stroke-width: 1px;
+  stroke-width: 2px;
 }
