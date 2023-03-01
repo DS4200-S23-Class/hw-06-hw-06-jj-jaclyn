@@ -164,23 +164,37 @@ const FRAME3 = d3.select('#vis3')
                   .attr('class', 'frame')
 
 
-// Reading from file
-d3.csv('data/iris.csv').then((data)=> {
 
-    const y = d3.scaleLinear()
-                            .domain([0, d3.max(data, d => +d.Petal_Width)+1])
-                            // .domain(data.map((d) => { return d.Petal_Length; }))
-                            .range([VIS_HEIGHT,0]);
+// Reading from a file
+d3.csv("data/iris.csv").then((data) => { 
 
-    const x = d3.scaleLinear()
-                            .domain([0, d3.max(data, d => +d.Sepal_Width)+1])
-                            // .domain(data.map((d) => { return d.Sepal_Length; }))
-                            .range([0,VIS_WIDTH]);
+    const MAX = d3.max(data, (d) => { return parseInt(d.amount); });
+
+    const X_SCALE = d3.scaleBand() 
+                    .domain(data.map((d) => { return d.Species; })) 
+                    .range([0, VIS_WIDTH])
+                    .padding(.2); 
+           
+    const Y_SCALE = d3.scaleLinear() 
+                      .domain([MAX + 10, 0]) 
+                      .range([0, VIS_HEIGHT]); 
 
     // Create a color scale
     var color = d3.scaleOrdinal()
                   .domain(["setosa", "versicolor", "virginica"])
                   .range(["#1f77b4", "#ff7f0e", "#2ca02c"]);
+
+
+
+    FRAME2.selectAll("bar")  
+          .data(data) 
+          .enter()       
+          .append("rect")  
+            .attr("y", (d) => { return Y_SCALE(d.amount) + MARGINS.bottom; }) 
+            .attr("x", (d) => { return X_SCALE(d.category) + MARGINS.left;}) 
+            .attr("height", (d) => { return VIS_HEIGHT - Y_SCALE(d.amount); })
+            .attr("width", X_SCALE.bandwidth())
+            .attr("class", "bar");
 
 
     // add x axis 
@@ -190,9 +204,6 @@ d3.csv('data/iris.csv').then((data)=> {
               "," + (VIS_HEIGHT + MARGINS.top) + ")") 
         .call(d3.axisBottom(x))
         .attr("font-size", '20px'); 
-
-
-
 
   // add y axis
   FRAME3.append("g") 
