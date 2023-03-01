@@ -191,7 +191,7 @@ d3.csv('data/iris.csv').then((data)=> {
 
 
     // add x axis 
-   FRAME2.append("g") 
+   FRAME3.append("g") 
      //move the axis down to the page
         .attr("transform", "translate(" + MARGINS.left + 
               "," + (VIS_HEIGHT + MARGINS.top) + ")") 
@@ -202,7 +202,7 @@ d3.csv('data/iris.csv').then((data)=> {
 
 
   // add y axis
-  FRAME2.append("g") 
+  FRAME3.append("g") 
     //move the axis down to the page
         .attr("transform", "translate(" + (MARGINS.left) + 
               "," + (MARGINS.top) + ")") 
@@ -211,7 +211,7 @@ d3.csv('data/iris.csv').then((data)=> {
 
 
     // Add the data points
-    FRAME2.selectAll("circle")
+    FRAME3.selectAll("circle")
        .data(data)
        .enter()
        .append("circle")
@@ -232,7 +232,7 @@ d3.csv('data/iris.csv').then((data)=> {
 
    
     // Add the chart title
-    FRAME2.append("text")
+    FRAME3.append("text")
         .attr("x", 300)
         .attr("y", 30)
         .attr("text-anchor", "middle")
