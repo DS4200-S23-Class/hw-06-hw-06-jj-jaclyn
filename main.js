@@ -65,6 +65,13 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("opacity", 0.5)
         .attr("fill", d => color(d.Species));
 
+           // .attr("cx", function(d) { return petal_length(d.Sepal_Length) + MARGINS.bottom; })
+           // .attr("cy", function(d) { return sepal_length(d.Petal_Length) + MARGINS.left; })
+           // .attr("r", 5)
+           // .style("fill", function(d) { return color(d.Species); })
+           // .style("opacity", 0.5);
+
+
    
     // Add the chart title
     FRAME1.append("text")
@@ -138,11 +145,6 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("opacity", 0.5)
         .attr("fill", d => color(d.Species));
 
-           // .attr("cx", function(d) { return petal_length(d.Sepal_Length) + MARGINS.bottom; })
-           // .attr("cy", function(d) { return sepal_length(d.Petal_Length) + MARGINS.left; })
-           // .attr("r", 5)
-           // .style("fill", function(d) { return color(d.Species); })
-           // .style("opacity", 0.5);
 
 
    
@@ -153,72 +155,36 @@ d3.csv('data/iris.csv').then((data)=> {
         .attr("text-anchor", "middle")
         .text("Petal_Width vs Sepal_Width");
 
-  });
+    var svg = d3.select("#vis2")
+    .append("svg")
+    .attr("width", width + margin.left + margin.right)
+      .attr("height", height + margin.top + margin.bottom)
+     .append("g")
+      .attr("transform",
+            "translate(" + margin.left + "," + margin.top + ")");
 
 
-// right column
-const FRAME3 = d3.select('#vis3')
-                  .append('svg')
-                  .attr('height', FRAME_HEIGHT)
-                  .attr('width', FRAME_WIDTH)
-                  .attr('class', 'frame')
+  // Add brushing
+    svg.call(d3.brush()
+        .extent( [ [0,0], [FRAME_WIDTH,FRAME_HEIGHT] ] ) // initialise the brush area: start at 0,0 and finishes at width,height: it means I select the whole graph area
+        .on("start brush", updateChart)) // Each time the brush selection changes, trigger the 'updateChart' function
 
+      // Function that is triggered when brushing is performed
+      function updateChart() {
+       extent = d3.event.selection
+       circle.classed("selected", function(d){ return isBrushed(extent, x(d.Sepal_Length), y(d.Petal_Length) ) } )
+      }
 
-
-// Reading from a file
-d3.csv("data/iris.csv").then((data) => { 
-
-    const X_SCALE = d3.scaleBand() 
-                    .domain(data.map((d) => { return d.Species; })) 
-                    .range([0, VIS_WIDTH]); 
-           
-    const Y_SCALE = d3.scaleLinear() 
-                      .domain([50, 0]) 
-                      .range([0, VIS_HEIGHT]); 
-
-    // Create a color scale
-    var color = d3.scaleOrdinal()
-                  .domain(["setosa", "versicolor", "virginica"])
-                  .range(["#1f77b4", "#ff7f0e", "#2ca02c"]);
-
-
-
-    FRAME3.selectAll("bar")  
-          .data(data) 
-          .enter()       
-          .append("rect")  
-            .attr("y", (d) => { return Y_SCALE(d.amount) + MARGINS.bottom; }) 
-            .attr("x", (d) => { return X_SCALE(d.category) + MARGINS.left;}) 
-            .attr("height", (d) => { return VIS_HEIGHT; })
-            .attr("width", X_SCALE.bandwidth())
-            .attr("class", "bar");
-
-
-    // add x axis 
-   FRAME3.append("g") 
-     //move the axis down to the page
-        .attr("transform", "translate(" + MARGINS.left + 
-              "," + (VIS_HEIGHT + MARGINS.top) + ")") 
-        .call(d3.axisBottom(x))
-        .attr("font-size", '20px'); 
-
-  // add y axis
-  FRAME3.append("g") 
-    //move the axis down to the page
-        .attr("transform", "translate(" + (MARGINS.left) + 
-              "," + (MARGINS.top) + ")") 
-        .call(d3.axisLeft(y)) 
-          .attr("font-size", '20px'); 
-
-
-   
-    // Add the chart title
-    FRAME3.append("text")
-        .attr("x", 300)
-        .attr("y", 30)
-        .attr("text-anchor", "middle")
-        .text("setosa vs versicolor vs virginica");
+      // A function that return TRUE or FALSE according if a dot is in the selection or not
+     function isBrushed(brush_coords, cx, cy) {
+          var x0 = brush_coords[0][0],
+               x1 = brush_coords[1][0],
+               y0 = brush_coords[0][1],
+            y1 = brush_coords[1][1];
+          return x0 <= cx && cx <= x1 && y0 <= cy && cy <= y1;
+     }
 
   });
+
 
 
