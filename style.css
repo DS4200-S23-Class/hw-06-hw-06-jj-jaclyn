@@ -22,3 +22,20 @@ h2{
   display: table;
   clear: both;
 }
+
+#frame {
+  width: 500px;
+  height: 500px;
+}
+
+
+line {
+    stroke-width: 1px;
+    stroke: black;
+}
+
+.selected {
+  opacity: 1 !important;
+  stroke: black;
+  stroke-width: 1px;
+}
