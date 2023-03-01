@@ -186,7 +186,7 @@ d3.csv("data/iris.csv").then((data) => {
 
 
 
-    FRAME2.selectAll("bar")  
+    FRAME3.selectAll("bar")  
           .data(data) 
           .enter()       
           .append("rect")  
