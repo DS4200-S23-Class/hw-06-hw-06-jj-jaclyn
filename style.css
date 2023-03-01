@@ -6,6 +6,11 @@ h1{
   text-align: center;
 }
 
+h2{
+  text-align: center;
+    clear: both;
+}
+
 .column {
   float: left;
   width: 33.33%;
